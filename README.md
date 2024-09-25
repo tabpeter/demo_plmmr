@@ -20,11 +20,11 @@ This demonstration is structured in the following way:
 
 I also have two private folders on my computer, called 'data' and 'results'. My 'data' folder has all the PLINK data files (.bed/.bim/.fam) as well as the .csv file of meta-data. My 'results' folder has the .rds/.bk files with the objects returned by our model fitting process. These two folders are too large to include in the GitHub site. By making this repository public, my goal is to ensures the reproducibility and transparency of my work. The publicly available data, scripts, and figures allow users/readers to follow along with this demonstration and compare their results with the ones shown in my graphs. I welcome user feedback (via pull requests and/or issues).
 
-## Scripts 
+## Scripts
 
 The order and purpose of each script is as follows:
 
--   `qc.sh` documents what I did to clean the data, using [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/) and R 4.1. 
+-   `qc.sh` documents what I did to clean the data, using [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/) and R 4.1.
 
 -   `create_subsets.sh` documents how I created the subsets of data of varying numbers of features (i.e., SNPs) and observations (i.e., samples)
 
@@ -33,3 +33,5 @@ The order and purpose of each script is as follows:
 -   For tutorial-style explanations of how to use plmmr, check out the [documentation website](https://pbreheny.github.io/plmmr/articles/getting-started.html#data-input-types). There are several data sets that 'ship' with the package, and the documentation website has a vignette that covers each of these data sets.
 
 -   For more hands-on experience with GWAS data, check out [this other tutorial](https://pbreheny.github.io/adv-gwas-tutorial/index.html).
+
+-   For details on the notation I use (e.g., in the comments within scripts), see this [note on notation](https://pbreheny.github.io/plmmr/articles/notation.html).
