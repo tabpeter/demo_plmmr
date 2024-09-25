@@ -2,4 +2,9 @@
 .rds
 .bk
 .log
+.bed
+.bim
+.fam
+.Rproj.user
+data/
 
