@@ -1,0 +1,15 @@
+Package: demo_plmm
+Title: Runs demonstrations of `plmmr` using real GWAS data
+Version: 1.0.0.0
+Authors@R: 
+    person("Tabitha", "Peter", , "tabitha-peter@uiowa.edu", role = c("aut", "cre"))
+Description: The purpose of this package is to illustrate the current computational capacity of the `plmmr` package. The focus here is on computational time. 
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: 
+  plmmr
+Suggests:
+  dplyr
