@@ -18,17 +18,17 @@ fit_time <- track_time_long |>
 f1 <- comp_time_chart(dat = process_time,
                 title = "Computational time for processing PLINK files",
                 y = "Time (seconds)")
-ggplot2::ggsave("figures/process_time.png", width = 5)
+ggplot2::ggsave("figures/process_time.png", width = 8, height = 6)
 
 f2 <- comp_time_chart(dat = design_time,
                 title = "Computational time for creating a design object",
                 y = "Time (minutes)")
-ggplot2::ggsave("figures/design_time.png", width = 5)
+ggplot2::ggsave("figures/design_time.png", width = 8, height = 6)
 
 f3 <- comp_time_chart(dat = fit_time,
                 title = "Computational Time for fitting a model",
                 y = "Time (minutes)")
-ggplot2::ggsave("figures/fit_time.png", width = 5)
+ggplot2::ggsave("figures/fit_time.png", width = 8, height = 6)
 
 # ggpubr::ggarrange(f1, f2, f3, nrow = 1, widths = 10)
 # ggplot2::ggsave("figures/comp_time.png")
