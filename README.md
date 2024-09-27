@@ -10,15 +10,21 @@ This demonstration uses data from the [PennCATH study](https://pubmed.ncbi.nlm.n
 
 Once downloaded, you will need to unzip/untar the data into the folder of your choice. Throughout the tutorial, I will assume that the unzipped data files are in a folder called 'data'; if you store them somewhere else, you will need to change the directory references.
 
+# TL;DR
+
+Here are the results for model fitting time:
+
+![](figures/fit_time.png)
+
 # Structure
 
 This demonstration is structured in the following way:
 
 -   the 'scripts' folder contains the code used to analyze the data/fit the models.
 
--   the 'figures' folder has the images from the results of the analysis.
+-   the 'R' folder has the R functions I wrote to run the analysis and synthesize results.
 
-I also have two private folders on my computer, called 'data' and 'results'. My 'data' folder has all the PLINK data files (.bed/.bim/.fam) as well as the .csv file of meta-data. My 'results' folder has the .rds/.bk files with the objects returned by our model fitting process. These two folders are too large to include in the GitHub site. By making this repository public, my goal is to ensures the reproducibility and transparency of my work. The publicly available data, scripts, and figures allow users/readers to follow along with this demonstration and compare their results with the ones shown in my graphs. I welcome user feedback (via pull requests and/or issues).
+I also have two private folders on my computer, called 'data' and 'results'. My 'data' folder has all the PLINK data files (.bed/.bim/.fam) as well as the .csv file of meta-data. My 'results' folder has the .rds/.bk files with the objects returned by our model fitting process. These two folders are too large to include in the GitHub site. By making this repository public, my goal is to ensures the reproducibility and transparency of my work. The publicly available data & scripts allow users/readers to follow along with this demonstration and compare their results with the ones shown in my graphs. I welcome user feedback (via pull requests and/or issues).
 
 ## Scripts
 
@@ -27,6 +33,14 @@ The order and purpose of each script is as follows:
 -   `qc.sh` documents what I did to clean the data, using [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/) and R 4.1.
 
 -   `create_subsets.sh` documents how I created the subsets of data of varying numbers of features (i.e., SNPs) and observations (i.e., samples)
+
+-   `save_timestamps.R` creates an RDS object that stores the run times for each model fit
+
+-   `n350_p400K.R` was the first script I wrote to analyze data – after this, I wrapped this code into the function in `R/run_analysis`
+
+-   `full_data_fit.R` is the last script I wrote for data analysis – since this uses the entire PennCath dataset, the code was different enough from the other cases that I didn't use `run_analysis()`
+
+-   `fig.R` has the code I used for creating figures
 
 # References
 

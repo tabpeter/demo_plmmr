@@ -31,8 +31,6 @@ run_analysis <- function(n, p, ...){
                             ...)
   )
 
-
-
   # fit a model
   fit_time <- system.time(
     plmmr::plmm(design = design,
