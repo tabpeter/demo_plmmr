@@ -14,7 +14,7 @@ Once downloaded, you will need to unzip/untar the data into the folder of your c
 
 Here are the results for model fitting time:
 
-![width=8,height=6](figures/fit_time.png)
+![](figures/fit_time.png)
 
 # Structure
 
