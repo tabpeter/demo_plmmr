@@ -12,7 +12,10 @@ RoxygenNote: 7.3.1
 Imports: 
   plmmr
 Suggests:
-  dplyr,
-  ggplot2,
-  ggpubr,
-  tidyr
+    dplyr,
+    ggplot2,
+    ggpubr,
+    knitr,
+    rmarkdown,
+    tidyr
+VignetteBuilder: knitr
