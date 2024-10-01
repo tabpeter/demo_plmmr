@@ -12,7 +12,7 @@ Once downloaded, you will need to unzip/untar the data into the folder of your c
 
 # TL;DR
 
-Here are the results for model fitting time:
+Here are the results for the computational time needed to fit a penalized linear mixed model with `plmmr`; $n$ is the number of observations (e.g., samples) and $p$ is the number of features (e.g., variants). 
 
 ![](figures/fit_time.png)
 
