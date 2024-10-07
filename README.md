@@ -40,6 +40,8 @@ The order and purpose of each script is as follows:
 
 -   `full_data_fit.R` is the last script I wrote for data analysis – since this uses the entire PennCath dataset, the code was different enough from the other cases that I didn't use `run_analysis()`
 
+-   `get_eigen_times.R` and `get_plmm_fit_time.R` both extract time stamps from the log files of each model fit. The goal here was to break down how much time is spent in the eigendecomposition step as compared to how much time is spend in the actual model fitting.
+
 -   `fig.R` has the code I used for creating figures
 
 # References

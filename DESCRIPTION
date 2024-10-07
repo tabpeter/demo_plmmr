@@ -19,3 +19,7 @@ Suggests:
     rmarkdown,
     tidyr
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10),
+    plmmr (>= 3.2.0.0)
+LazyData: true
