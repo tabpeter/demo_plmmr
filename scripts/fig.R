@@ -1,14 +1,16 @@
-# visualizing the timestamp data
+# Objective: visualize the timestamp data
 
+## read in data and create long-form -------------------------------------------
 track_time <- readRDS("results/track_time.rds")
 track_time <- track_time |>
-  dplyr::mutate(total_time = process + create_design + fit)
+  dplyr::mutate(total_time = (process + create_design + fit)/60)
 
 track_time_long <- tidyr::pivot_longer(data = track_time,
                                        cols = process:plmm_fit,
                                        names_to = "routine",
                                        values_to = "time")
 
+## look at each step of the pipeline separately --------------------------------
 process_time <- track_time_long |> dplyr::filter(routine == "process")
 design_time <- track_time_long |>
   dplyr::filter(routine == "create_design") |>
@@ -42,15 +44,32 @@ ggplot2::ggsave("figures/fit_time.png", width = 8, height = 6)
 # ggpubr::ggarrange(f1, f2, f3, nrow = 1, widths = 10)
 # ggplot2::ggsave("figures/comp_time.png")
 
-# show proportion of time spent on eigendecomposition at each size
-ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% c("process", "create_design", "eigendecomp", "plmm_fit")),
+## look at total time for varying n & p ----------------------------------------
+ggplot2::ggplot(data = track_time,
+                ggplot2::aes(x = n,
+                             y = total_time,
+                             color = p,
+                             group = p)) +
+  ggplot2::geom_line(ggplot2::aes(color = p, group = p)) +
+  ggplot2::labs(x = "n (number of observations)",
+                y = "Time (min)",
+                color = "p \n(number of features,\n in thousands)",
+                title = "Total time for plmmr pipeline",
+                subtitle = "Includes pre-processing, eigendecomposition, and model fitting")
+ggplot2::ggsave("figures/total_time.png")
+
+## show proportion of time spent on eigendecomposition at each size-------------
+plmmr_steps <- c("process", "create_design", "eigendecomp", "plmm_fit")
+ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
                 ggplot2::aes(x = factor(n),
                              y = time/60,
-                             fill = factor(routine, levels = c("process", "create_design", "eigendecomp", "plmm_fit")))) +
+                             fill = factor(routine, levels = plmmr_steps))) +
   ggplot2::geom_bar(stat = "identity") +
+ # ggplot2::scale_fill_viridis_d() +
   ggplot2::labs(title = "Time spent in each routine within plmmr pipeline",
        x = "n",
        y = "Total time (min)",
        fill = "Routine") +
   ggplot2::theme_minimal() +
   ggplot2::facet_wrap(~p)
+ggplot2::ggsave("figures/proportion_breakdown.png")
