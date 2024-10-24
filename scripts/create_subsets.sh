@@ -34,16 +34,16 @@ plink --bfile qc_penncath --thin-indiv-count 1050 --thin-count 600000 --make-bed
 plink --bfile qc_penncath --thin-count 600000 --make-bed --out n1401_p600K
 
 
-# n = 350, p = 800K
-plink --bfile qc_penncath --thin-indiv-count 350 --make-bed --out n350_p800K
+# n = 350, p = 700K
+plink --bfile qc_penncath --thin-indiv-count 350 --make-bed --out n350_p700K
 
-# n = 700, p = 800K
-plink --bfile qc_penncath --thin-indiv-count 700 --make-bed --out n700_p800K
+# n = 700, p = 700K
+plink --bfile qc_penncath --thin-indiv-count 700 --make-bed --out n700_p700K
 
-# n = 1050, p = 800K
-plink --bfile qc_penncath --thin-indiv-count 1050 --make-bed --out n1050_p800K
+# n = 1050, p = 700K
+plink --bfile qc_penncath --thin-indiv-count 1050 --make-bed --out n1050_p700K
 
-# n = 1401, p = 800K 
+# n = 1401, p = 700K 
 # this is the case where we will use the entire data set 
 
 

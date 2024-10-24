@@ -30,7 +30,7 @@ I also have two private folders on my computer, called 'data' and 'results'. My 
 
 The order and purpose of each script is as follows:
 
--   `qc.sh` documents what I did to clean the data, using [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/) and R 4.1.
+-   `qc.sh` documents what I did to clean the data, using [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/) and R 4.4.1.
 
 -   `create_subsets.sh` documents how I created the subsets of data of varying numbers of features (i.e., SNPs) and observations (i.e., samples)
 
