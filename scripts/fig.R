@@ -51,12 +51,15 @@ ggplot2::ggplot(data = track_time,
                              color = p,
                              group = p)) +
   ggplot2::geom_line(ggplot2::aes(color = p, group = p)) +
+  ggplot2::expand_limits(y = 0) +
+  # ggplot2::scale_x_continuous(expand = c(0, 0)) +
+  # ggplot2::scale_y_continuous(expand = c(0, 0)) +
   ggplot2::labs(x = "n (number of observations)",
                 y = "Time (min)",
                 color = "p \n(number of features,\n in thousands)",
                 title = "Total time for plmmr pipeline",
                 subtitle = "Includes pre-processing, eigendecomposition, and model fitting")
-ggplot2::ggsave("figures/total_time.png")
+ggplot2::ggsave("figures/total_time.png", height = 5, width = 5)
 
 ## show proportion of time spent on eigendecomposition at each size-------------
 plmmr_steps <- c("process", "create_design", "eigendecomp", "plmm_fit")
@@ -72,4 +75,37 @@ ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
        fill = "Routine") +
   ggplot2::theme_minimal() +
   ggplot2::facet_wrap(~p)
-ggplot2::ggsave("figures/proportion_breakdown.png")
+ggplot2::ggsave("figures/proportion_breakdown.png", height = 5, width = 7)
+
+
+## to put the two figures above in one panel -----
+panel_a <- ggplot2::ggplot(data = track_time,
+                ggplot2::aes(x = n,
+                             y = total_time,
+                             color = p,
+                             group = p)) +
+  ggplot2::geom_line(ggplot2::aes(color = p, group = p)) +
+  ggplot2::expand_limits(y = 0) +
+  # ggplot2::scale_x_continuous(expand = c(0, 0)) +
+  # ggplot2::scale_y_continuous(expand = c(0, 0)) +
+  ggplot2::labs(x = "n (number of observations)",
+                y = "Time (min)",
+                color = "p \n(number of features,\n in thousands)",
+                title = "Total time for plmmr pipeline",
+                subtitle = "Includes pre-processing, eigendecomposition, and model fitting")
+
+
+panel_b <- ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
+                ggplot2::aes(x = factor(n),
+                             y = time/60,
+                             fill = factor(routine, levels = plmmr_steps))) +
+  ggplot2::geom_bar(stat = "identity") +
+  # ggplot2::scale_fill_viridis_d() +
+  ggplot2::labs(title = "Time spent in each routine within plmmr pipeline",
+                x = "n",
+                y = "Total time (min)",
+                fill = "Routine") +
+  ggplot2::theme_minimal() +
+  ggplot2::facet_wrap(~p)
+
+ggpubr::ggarrange(panel_a, panel_b)
