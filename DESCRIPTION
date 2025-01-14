@@ -1,6 +1,6 @@
 Package: demo_plmm
 Title: Runs demonstrations of `plmmr` using real GWAS data
-Version: 1.0.0.0
+Version: 1.0.0.1
 Authors@R: 
     person("Tabitha", "Peter", , "tabitha-peter@uiowa.edu", role = c("aut", "cre"))
 Description: The purpose of this package is to illustrate the current computational capacity of the `plmmr` package. The focus here is on computational time. 
@@ -21,5 +21,5 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10),
-    plmmr (>= 3.2.0.0)
+    plmmr (>= 4.1.0.0)
 LazyData: true
