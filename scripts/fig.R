@@ -56,10 +56,10 @@ ggplot2::ggplot(data = track_time,
   # ggplot2::scale_y_continuous(expand = c(0, 0)) +
   ggplot2::labs(x = "n (number of observations)",
                 y = "Time (min)",
-                color = "p \n(number of features,\n in thousands)",
-                title = "Total time for plmmr pipeline",
-                subtitle = "Includes pre-processing, eigendecomposition, and model fitting")
-ggplot2::ggsave("figures/total_time.png", height = 5, width = 5)
+                # title = "Total time for plmmr pipeline",
+                # subtitle = "Includes pre-processing, eigendecomposition, and model fitting",
+                color = "p \n(number of features,\n in thousands)")
+ggplot2::ggsave("figures/total_time.png", height = 3, width = 5)
 
 ## show proportion of time spent on eigendecomposition at each size-------------
 plmmr_steps <- c("process", "create_design", "eigendecomp", "plmm_fit")
@@ -69,9 +69,10 @@ ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
                              fill = factor(routine, levels = plmmr_steps))) +
   ggplot2::geom_bar(stat = "identity") +
  # ggplot2::scale_fill_viridis_d() +
-  ggplot2::labs(title = "Time spent in each routine within plmmr pipeline",
+  ggplot2::labs(
        x = "n",
        y = "Total time (min)",
+       # title = "Time spent in each routine within plmmr pipeline",
        fill = "Routine") +
   ggplot2::theme_minimal() +
   ggplot2::facet_wrap(~p)
