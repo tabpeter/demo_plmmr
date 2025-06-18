@@ -28,7 +28,7 @@ batch <- (dates - min(dates)) |>
   as.numeric() |>
   cut(c(-1, 10, 75, 200, 300, 500))
 saveRDS(list(
-  x = mat,
+  x = t(mat),
   y = outcome,
   batch = batch,
   dates = dates),
