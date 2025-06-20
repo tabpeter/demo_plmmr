@@ -1,3 +1,8 @@
+rule all:
+    input:
+        "data/.subsets.complete",
+        "data/bladder-cancer.rds"
+
 rule penncath:
     output:
         "data/qc_penncath.bed"
@@ -14,12 +19,12 @@ rule subsets:
     input:
         "data/qc_penncath.bed"
     output:
-        ".subsets.complete"
+        "data/.subsets.complete"
     shell:
         """
         cp scripts/create_subsets.sh data
         cd data && ./create_subsets.sh
-        touch {output}
+        cd .. && touch {output}
         """
 
 rule bladder:
