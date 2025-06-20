@@ -36,9 +36,7 @@ The order and purpose of each script is as follows:
 
 -   `save_timestamps.R` creates an RDS object that stores the run times for each model fit
 
--   `n350_p400K.R` was the first script I wrote to analyze data – after this, I wrapped this code into the function in `R/run_analysis`
-
--   `full_data_fit.R` is the last script I wrote for data analysis – since this uses the entire PennCath dataset, the code was different enough from the other cases that I didn't use `run_analysis()`
+-   `run_all_analyses.R` fits models for all combinations of $n$ and $p$. Results are saved to the RDS object in the 'results' subfolder.
 
 -   `get_eigen_times.R` and `get_plmm_fit_time.R` both extract time stamps from the log files of each model fit. The goal here was to break down how much time is spent in the eigendecomposition step as compared to how much time is spend in the actual model fitting.
 

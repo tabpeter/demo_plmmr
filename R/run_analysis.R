@@ -1,4 +1,8 @@
-#' fit a PLMM model with specified dimensions
+#' fit a PLMM model for penncath subset with specified dimensions
+#'
+#' @param n Integer indicating the number of rows (observations) in the data subset of interest
+#' @param p Integer indicating the approximate number of columns (features) in the data subset of interest
+#' @param ... Other arguments to plmmr functions (not currently implemented)
 run_analysis <- function(n, p, ...){
 
   # process the data
