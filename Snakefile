@@ -14,11 +14,12 @@ rule subsets:
     input:
         "data/qc_penncath.bed"
     output:
-        "data/n700_p700K.bed"
+        ".subsets.complete"
     shell:
         """
         cp scripts/create_subsets.sh data
         cd data && ./create_subsets.sh
+        touch {output}
         """
 
 rule bladder:
@@ -34,6 +35,4 @@ rule bladder:
         rm bladdercels.tgz
         cd ..
         Rscript scripts/bladder-process.R
-        mkdir -p $(dirname {output})
-        touch {output}
         """
