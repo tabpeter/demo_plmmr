@@ -6,7 +6,7 @@ track_time <- track_time |>
   dplyr::mutate(total_time = (process + create_design + fit)/60)
 
 track_time_long <- tidyr::pivot_longer(data = track_time,
-                                       cols = process:plmm_fit,
+                                       cols = process:eigendecomp,
                                        names_to = "routine",
                                        values_to = "time")
 
@@ -79,7 +79,7 @@ ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
 ggplot2::ggsave("figures/proportion_breakdown.png", height = 5, width = 7)
 
 
-## to put the two figures above in one panel -----
+### to put the two figures above in one panel -----
 panel_a <- ggplot2::ggplot(data = track_time,
                 ggplot2::aes(x = n,
                              y = total_time,

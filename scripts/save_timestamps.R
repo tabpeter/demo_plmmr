@@ -13,7 +13,7 @@ track_time$fit <- NA_real_
 saveRDS(track_time, file = "results/track_time.rds")
 
 # second task: create folders to organize results
-for i in 1:nrow(g){
+for (i in 1:nrow(g)){
   foldername <- file.path("results", paste0("n", g[i,1], "_p", g[i,2]))
   dir.create(foldername)
 }

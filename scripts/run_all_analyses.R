@@ -5,7 +5,7 @@
 d <- expand.grid(n = c(350, 700, 1050, 1401), p = c(400, 600, 700))
 
 # analyese of subsets
-for i in 1:nrow(d){
+for (i in 1:nrow(d)){
   run_analysis(n = d[i,1], p = d[i, 2])
 }
 

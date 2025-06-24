@@ -7,7 +7,7 @@ run_analysis <- function(n, p, ...){
 
   # process the data
   process_time <- system.time(
-    plink_data <- plmmr::process_plink(data_dir = file.path("data", paste0("p",p,"K")),
+    plink_data <- plmmr::process_plink(data_dir = file.path("data"),
                                 data_prefix = paste0("n",n, "_p", p, "K"),
                                 rds_dir = file.path('results', paste0("n",n, "_p", p, "K")),
                                 rds_prefix = paste0("processed_n",n,"_p",p,"K"),
