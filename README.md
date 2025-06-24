@@ -24,7 +24,9 @@ This demonstration is structured in the following way:
 
 -   the 'R' folder has the R functions I wrote to run the analysis and synthesize results.
 
-I also have two private folders on my computer, called 'data' and 'results'. My 'data' folder has all the PLINK data files (.bed/.bim/.fam) as well as the .csv file of meta-data. My 'results' folder has the .rds/.bk files with the objects returned by our model fitting process. These two folders are too large to include in the GitHub site. By making this repository public, my goal is to ensures the reproducibility and transparency of my work. The publicly available data & scripts allow users/readers to follow along with this demonstration and compare their results with the ones shown in my graphs. I welcome user feedback (via pull requests and/or issues).
+To run these scripts on your computer, **you will need to create two folders, called 'data' and 'results'**. The 'data' folder has all the PLINK data files (.bed/.bim/.fam) as well as the .csv file of meta-data. The 'results' folder has the .rds/.bk files with the objects returned by our model fitting process.
+
+By making this repository public, my goal is to ensures the reproducibility and transparency of my work. The publicly available data & scripts allow users/readers to follow along with this demonstration and compare their results with the ones shown in my graphs. I welcome user feedback (via pull requests and/or issues).
 
 ## Scripts
 
@@ -41,6 +43,10 @@ The order and purpose of each script is as follows:
 -   `get_eigen_times.R` and `get_plmm_fit_time.R` both extract time stamps from the log files of each model fit. The goal here was to break down how much time is spent in the eigendecomposition step as compared to how much time is spend in the actual model fitting.
 
 -   `fig.R` has the code I used for creating figures
+
+# Caveats
+
+This demonstration is run to illustrate the accessibility and performance of **plmmr** on a laptop; I ran these results on a single thread using my 2025 MacBook Pro. Performance of **plmmr** can be dramatically faster if one uses [OpenBLAS](http://www.openmathlib.org/OpenBLAS/) instead of the default BLAS. We encourage users to examine this avenue as a possible speedup.
 
 # References
 
