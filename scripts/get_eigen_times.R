@@ -1,4 +1,5 @@
 # Objective: get the timestamps for the eigendecomposition and add to time tracking RDS object
+devtools::load_all(quiet = TRUE)
 res_folders <- list.files(path = "results/")
 
 track_time <- readRDS("results/track_time.rds")

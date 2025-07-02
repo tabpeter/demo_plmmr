@@ -12,6 +12,7 @@ run_analysis <- function(n, p, ...){
                                 rds_dir = file.path('results', paste0("n",n, "_p", p, "K")),
                                 rds_prefix = paste0("processed_n",n,"_p",p,"K"),
                                 impute_method = "mode",
+                                parallel = FALSE,
                                 ...)
   )
 

@@ -1,4 +1,6 @@
 # Objective: visualize the timestamp data
+library(ggplot2)
+library(dplyr)
 
 ## read in data and create long-form -------------------------------------------
 track_time <- readRDS("results/track_time.rds")
@@ -52,31 +54,29 @@ ggplot2::ggplot(data = track_time,
                              group = p)) +
   ggplot2::geom_line(ggplot2::aes(color = p, group = p)) +
   ggplot2::expand_limits(y = 0) +
-  # ggplot2::scale_x_continuous(expand = c(0, 0)) +
-  # ggplot2::scale_y_continuous(expand = c(0, 0)) +
   ggplot2::labs(x = "n (number of observations)",
                 y = "Time (min)",
-                # title = "Total time for plmmr pipeline",
-                # subtitle = "Includes pre-processing, eigendecomposition, and model fitting",
-                color = "p \n(number of features,\n in thousands)")
+                color = "p \n(number of features,\n in thousands)") +
+  theme_minimal()
 ggplot2::ggsave("figures/total_time.png", height = 3, width = 5)
+ggplot2::ggsave("figures/total_time.pdf", height = 3, width = 5)
+
 
 ## show proportion of time spent on eigendecomposition at each size-------------
-plmmr_steps <- c("process", "create_design", "eigendecomp", "plmm_fit")
-ggplot2::ggplot(track_time_long |> dplyr::filter(routine %in% plmmr_steps),
-                ggplot2::aes(x = factor(n),
-                             y = time/60,
-                             fill = factor(routine, levels = plmmr_steps))) +
-  ggplot2::geom_bar(stat = "identity") +
- # ggplot2::scale_fill_viridis_d() +
-  ggplot2::labs(
-       x = "n",
-       y = "Total time (min)",
-       # title = "Time spent in each routine within plmmr pipeline",
-       fill = "Routine") +
-  ggplot2::theme_minimal() +
-  ggplot2::facet_wrap(~p)
+track_time_long |>
+  mutate(routine = if_else(routine == "process", "Processing", routine)) |>
+  mutate(routine = if_else(routine == "create_design", "Processing", routine)) |>
+  mutate(routine = if_else(routine == "eigendecomp", "Decomposition", routine)) |>
+  mutate(routine = if_else(routine == "fit", "Model fitting", routine)) |>
+  mutate(routine = factor(routine, levels = c("Processing", "Decomposition", "Model fitting"))) |>
+  mutate(time = if_else(is.na(time), 1, time)) |>
+  ggplot(aes(x = factor(n), y = time/60, fill = routine)) +
+  geom_bar(stat = "identity") +
+  labs(x = "n", y = "Total time (min)", fill = "") +
+  theme_minimal() +
+  facet_wrap(~p)
 ggplot2::ggsave("figures/proportion_breakdown.png", height = 5, width = 7)
+ggplot2::ggsave("figures/proportion_breakdown.pdf", height = 3, width = 6)
 
 
 ### to put the two figures above in one panel -----

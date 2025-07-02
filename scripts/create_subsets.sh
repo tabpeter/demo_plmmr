@@ -43,7 +43,5 @@ plink --bfile qc_penncath --thin-indiv-count 700 --make-bed --out n700_p700K
 # n = 1050, p = 700K
 plink --bfile qc_penncath --thin-indiv-count 1050 --make-bed --out n1050_p700K
 
-# n = 1401, p = 700K 
-# this is the case where we will use the entire data set 
-
-
+# n = 1401, p = 700K (full data)
+plink --bfile qc_penncath --make-bed --out n1401_p700K
