@@ -11,7 +11,7 @@ rule penncath:
         wget https://d1ypx1ckp5bo16.cloudfront.net/penncath/penncath.tar.gz
         tar -xvf penncath.tar.gz
         rm penncath.tar.gz
-        cp scripts/qc.sh data
+        cp scripts/obj1-scaling/qc.sh data
         cd data && ./qc.sh
         """
 
@@ -22,7 +22,7 @@ rule subsets:
         "data/.subsets.complete"
     shell:
         """
-        cp scripts/create_subsets.sh data
+        cp scripts/obj1-scaling/create_subsets.sh data
         cd data && ./create_subsets.sh
         cd .. && touch {output}
         """
@@ -39,5 +39,5 @@ rule bladder:
         tar -xvf bladdercels.tgz
         rm bladdercels.tgz
         cd ..
-        Rscript scripts/bladder-process.R
+        Rscript scripts/obj2-gene-expression/bladder-process.R
         """
