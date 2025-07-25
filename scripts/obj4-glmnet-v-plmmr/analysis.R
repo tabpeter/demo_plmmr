@@ -4,58 +4,67 @@
 # Will use the PennCath data again here.
 # This script assumes that the model fitting from objective 1 has already been done.
 
+# set up ------------------------
+design_wo_std <- readRDS("results/n1401_p700K/penncath_wo_std.rds")
+
+X <- bigmemory::attach.big.matrix(design_wo_std$subset_X)
+
+# create train and test sets
+# build the model on 1000 observations; hold out the other 401 for evaluating prediction
+set.seed(37075)
+test_idx <- sample(1:nrow(X), 401) |> sort()
+test_X <- X[test_idx,]
+train_X <- X[-test_idx,]
+
+test_y <- design_wo_std$y[test_idx]
+train_y <- design_wo_std$y[-test_idx]
 
 # PLMM ------------
+train_design <- plmmr::create_design(X = train_X,
+                                     y = train_y)
 
-design <- readRDS("results/n1401_p700K/std_penncath.rds")
-fit <- readRDS("results/n1401_p700K/fit.rds")
-cvres_plmm <- plmmr::cv_plmm(design = "results/n1401_p700K/std_penncath.rds",
-                             K = fit$K,
+cvres_plmm <- plmmr::cv_plmm(design = train_design,
                              trace = TRUE,
-                             save_rds = "results/n1401_p700K/cv_fit")
+                             save_rds = "results/obj4/cv_fit")
+
+# for reading in results from RDS files, use the lines below:
+# cvres_plmm <- readRDS("results/obj4/cv_fit.rds")
 # cvres_plmm <- structure(cvres_plmm, class="cv_plmm")
-cvpred_plmm <- readRDS("results/n1401_p700K/cv_fit_yhat.rds")
 
 summary(cvres_plmm)
-plmm_beta <- cvres_plmm$fit$beta_vals[,cvres_plmm$min]
+plmm_beta <- coef(cvres_plmm)
+plmm_nz <- which(abs(plmm_beta[,1]) > 0.00000001)
+plmm_beta[plmm_nz,]
+
 # lasso only ------------
-
-# prepare input for glmnet
-# since cv.biglasso standardizes internally, we need to create a data matrix
-#   that combines unpenalized features (sex, age) with PLINK data *without* doing standardization
-
-plink_data <- "results/n1401_p700K/processed_n1401_p700K.rds"
-
-pheno <- read.csv("data/penncath.csv")
-pheno <- pheno |> dplyr::mutate(FamID = as.character(FamID))
-predictors <- pheno |> dplyr::transmute(FID = as.character(FamID), sex = sex, age = age)
-
-design_wo_std_path <- create_design_wo_std(data_file = plink_data,
-                               feature_id = "FID",
-                               rds_dir = "results/n1401_p700K/",
-                               new_file = "penncath_wo_std",
-                               add_outcome = pheno,
-                               outcome_id = "FamID",
-                               outcome_col = "CAD",
-                               add_predictor = predictors,
-                               predictor_id = "FID",
-                               overwrite = TRUE)
-
-design_wo_std <- readRDS(design_wo_std_path)
-
-X <- design_wo_std$subset_X |> bigmemory::attach.big.matrix()
-ram_X <- X[,]
-glmnet_fit <- glmnet::cv.glmnet(x = ram_X,
-                                y = design_wo_std$y,
+library(glmnet)
+glmnet_fit <- glmnet::cv.glmnet(x = train_X,
+                                y = train_y,
+                                # use same settings as in PLMM approach
                                 nfolds = 5,
-                                parallel = T,
-                                penalty.factor = design_wo_std$penalty_factor)
+                                lambda = cvres_plmm$lambda,
+                                penalty.factor = design_wo_std$penalty_factor,
+                                # show trace
+                                trace.it = T)
+
+saveRDS(glmnet_fit, "results/obj4/glmnet_fit.rds")
 
 glmnet_beta <- coef(glmnet_fit, s = "lambda.min")
-rownames(glmnet_beta) <- c('(Intercept)',design_wo_std$std_X_colnames)
-nz <- which(abs(glmnet_beta[,1]) > 0.00000001)
-glmnet_beta[nz,]
+rownames(glmnet_beta) <- c('(Intercept)', design_wo_std$std_X_colnames)
+glmnet_nz <- which(abs(glmnet_beta[,1]) > 0.00000001)
+glmnet_beta[glmnet_nz,]
+
 
 # compare predictions -----------
+# null model (predict mean for all outcomes)
+(null_mspe <- crossprod(design$y - rep(mean(design$y, length(design$y))))/length(design$y))
 
+# PLMM
+plmm_yhat <- readRDS("results/obj4/cv_fit_yhat.rds")
+pred_plmm <- plmm_yhat[,cvres_plmm$min]
+(plmm_mspe <- crossprod(design$y - cvpred_plmm[cvres_plmm$min])/length(design$y))
 
+# glmnet
+pred_glmnet <- predict(glmnet_fit, newx = ram_X, s = "lambda.min")
+saveRDS(pred_glmnet, "results/obj4/pred_glmnet.rds")
+(glmnet_mspe <- crossprod(design$y - pred_glmnet)/length(design$y))
