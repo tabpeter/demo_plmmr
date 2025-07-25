@@ -10,7 +10,7 @@ This demonstration uses data from the [PennCATH study](https://pubmed.ncbi.nlm.n
 
 Once downloaded, you will need to unzip/untar the data into the folder of your choice. Throughout the tutorial, I will assume that the unzipped data files are in a folder called 'data'; if you store them somewhere else, you will need to change the directory references.
 
-# Summary 
+# Summary
 
 This repository holds work related to four distinct objectives, all of which are related to **demo**nstrating **plmmr** package performance.
 
@@ -19,7 +19,7 @@ This repository holds work related to four distinct objectives, all of which are
 3.  Objective 3: Compare the performance of **plmmr** to two other packages: **ggmix** (R) and **PenalizedGLMM** (Julia). We do this with the PennCath data.
 4.  Objective 4: Compare the predictive performance of a **plmmr** model with that of a **glmnet** model. We do this with the PennCath data.
 
-## Objective 1 - Details 
+## Objective 1 - Computational time details
 
 Here are the results for the computational time needed to fit a penalized linear mixed model with `plmmr`; $n$ is the number of observations (e.g., samples) and $p$ is the number of features (e.g., variants). All computations were run on a laptop using a single core.
 
@@ -55,25 +55,25 @@ The order and purpose of each script within each objective:
 
 -   `fig.R` has the code I used for creating figures
 
-## Objective 2
+## Objective 2: Gene expression analysis
 
-- `bladder-process.R` preprocesses the **bladder** data.    
+-   `bladder-process.R` preprocesses the **bladder** data.
 
-- `bladder-analysis.R` fits models and implements the comparisons
+-   `bladder-analysis.R` fits models and implements the comparisons
 
-## Objective 3 
+## Objective 3: Comparing mixed model methods
 
-- `penncath-setup.R` has the preparatory steps for the comparison
+-   `penncath-setup.R` has the preparatory steps for the comparison
 
-- `penncath-plmmr.R` fits the penalized linear mixed models with **plmmr**
+-   `penncath-plmmr.R` fits the penalized linear mixed models with **plmmr**
 
-- `penncath-ggmix.R` fits the mixed models with **ggmix** 
+-   `penncath-ggmix.R` fits the mixed models with **ggmix**
 
-- `PenalizedGLMM-ManuscriptRun.ipynb` documents the model fitting done with Julia package **PenalizedGLMM**
+-   `PenalizedGLMM-ManuscriptRun.ipynb` documents the model fitting done with Julia package **PenalizedGLMM**
 
-## Objective 4 
+## Objective 4: Comparing glmnet and plmmr
 
-- 
+-   `glmnet-v-plmmr.R` fits a set of candidate models with each approach (lasso via **glmnet** and penalized linear mixed model via **plmmr**). Final models are chosen with cross-validation, and prediction performance between final models is compared.
 
 # Caveats
 
