@@ -22,8 +22,8 @@
 #' @param logfile                 Optional: name of the '.log' file to be written -- **Note:** do not append a `.log` to the filename; this is done automatically.
 #' @param quiet                   Logical: should messages to be printed to the console be silenced? Defaults to FALSE
 #'
+#' @returns A file path to the RDS object which holds the pointer to the newly created data matrix as well as a list of meta-data
 #'
-#' @returns
 #' @export
 #'
 create_design_wo_std <- function(data_file,
