@@ -47,6 +47,8 @@ The order and purpose of each script within each objective:
 
 -   `create_subsets.sh` documents how I created the subsets of data of varying numbers of features (i.e., SNPs) and observations (i.e., samples)
 
+-   `setup_results_folders.R` creates subfolders under `results/` that will contain the results of the analysis for objective 1. A subfolder is created for each of the 12 data (sub)sets used to assess computational time.
+
 -   `save_timestamps.R` creates an RDS object that stores the run times for each model fit
 
 -   `run_all_analyses.R` fits models for all combinations of $n$ and $p$. Results are saved to the RDS object in the 'results' subfolder.
