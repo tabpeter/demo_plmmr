@@ -2,7 +2,7 @@
 devtools::load_all(quiet = TRUE)
 res_folders <- list.files(path = "results/")
 
-track_time <- readRDS("results/track_time.rds")
+track_time <- readRDS(file.path("results","track_time.rds"))
 track_time$plmm_fit <- NA_real_
 
 # get times for
@@ -17,4 +17,4 @@ for (i in 1:length(res_folders)) {
                "plmm_fit"] <- pfit_time
   }
 }
-saveRDS(track_time, "results/track_time.rds")
+saveRDS(track_time, file.path("results","track_time.rds"))

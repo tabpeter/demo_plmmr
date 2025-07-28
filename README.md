@@ -75,7 +75,8 @@ The order and purpose of each script within each objective:
 
 ## Objective 4: Comparing glmnet and plmmr
 
--   `glmnet-v-plmmr.R` fits a set of candidate models with each approach (lasso via **glmnet** and penalized linear mixed model via **plmmr**). Final models are chosen with cross-validation, and prediction performance between final models is compared.
+-   `setup.R` creates a data matrix that includes both covariates 'sex' and 'age' along with the SNP data from the PennCath study, **without standardizing this data matrix**.
+-   `analysis.R` fits a set of candidate models with each approach (lasso via **glmnet** and penalized linear mixed model via **plmmr**). Final models are chosen with cross-validation, and prediction performance between final models is compared.
 
 # Caveats
 

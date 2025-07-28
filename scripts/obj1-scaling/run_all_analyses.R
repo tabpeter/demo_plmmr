@@ -15,9 +15,9 @@ for (i in 1:nrow(d)) {
 
 # process the data
 process_time <- system.time(
-  plink_data <- plmmr::process_plink(data_dir = "data/",
+  plink_data <- plmmr::process_plink(data_dir = file.path("data"),
                                      data_prefix = "qc_penncath",
-                                     rds_dir = "results/n1401_p700K/",
+                                     rds_dir = file.path("results", "n1401_p700K"),
                                      rds_prefix = "processed_n1401_p700K",
                                      impute_method = "mode",
                                      overwrite = TRUE,
@@ -27,14 +27,14 @@ process_time <- system.time(
 
 
 # create a design
-pheno <- read.csv("data/penncath.csv")
+pheno <- read.csv(file.path("data", "penncath.csv"))
 pheno <- pheno |> dplyr::mutate(FamID = as.character(FamID))
 predictors <- pheno |> dplyr::transmute(FID = as.character(FamID), sex = sex, age = age)
 
 design_time <- system.time(
   design <- plmmr::create_design(data_file = plink_data,
                                  feature_id = "FID",
-                                 rds_dir = "results/n1401_p700K/",
+                                 rds_dir = file.path("results", "n1401_p700K"),
                                  new_file = "std_penncath",
                                  add_outcome = pheno,
                                  outcome_id = "FamID",
@@ -50,14 +50,12 @@ design_time <- system.time(
 # fit a model
 fit_time <- system.time(
   plmmr::plmm(design = design,
-              save_rds = "results/n1401_p700K/fit",
+              save_rds = file.path("results", "n1401_p700K", "fit"),
               trace = T)
 )
 
 # save timestamps
-track_time <- readRDS("results/track_time.rds")
+track_time <- readRDS(file.path("results", "track_time.rds"))
 track_time[track_time$n == 1401 & track_time$p == "700K", "process"] <- process_time['elapsed']
 track_time[track_time$n == 1401 & track_time$p == "700K", "create_design"] <- design_time['elapsed']
 track_time[track_time$n == 1401 & track_time$p == "700K", "fit"] <- fit_time['elapsed']
-saveRDS(track_time, 'results/track_time.rds')
-

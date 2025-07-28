@@ -1,4 +1,3 @@
-# https://jtleek.com/batch/
 suppressPackageStartupMessages({
   library(affy)
   library(data.table)
@@ -7,8 +6,8 @@ suppressPackageStartupMessages({
 })
 
 # Gene expression
-tab <- read.csv("data/bladdercels/bladdertab.csv", as.is = TRUE)
-eset <- justRMA(filenames = tab$filename, celfile.path = "data/bladdercels/")
+tab <- read.csv(file.path("data", "bladdercels", "bladdertab.csv"), as.is = TRUE)
+eset <- justRMA(filenames = tab$filename, celfile.path = file.path("data", "bladdercels"))
 outcome <- tab[, 8]
 bt <- tab[, 5]
 Index <- which(outcome == "sTCC")
@@ -37,7 +36,7 @@ names(g) <- dt$PROBEID
 dates <- vector("character", ncol(mat))
 for (i in seq(along = dates)) {
   tmp <- affyio::read.celfile.header(
-    file.path("data/bladdercels", tab$filenam[i]),
+    file.path("data", "bladdercels", tab$filenam[i]),
     info = "full"
   )$DatHeader
   dates[i] <- strsplit(tmp, "\ +")[[1]][8]
@@ -54,5 +53,5 @@ saveRDS(list(
   g = g,
   batch = batch,
   dates = dates),
-  file = "data/bladder-cancer.rds"
+  file = file.path("data", "bladder-cancer.rds")
 )

@@ -10,4 +10,4 @@ track_time$process <- NA_real_
 track_time$create_design <- NA_real_
 track_time$fit <- NA_real_
 # str(track_time)
-saveRDS(track_time, file = "results/track_time.rds")
+saveRDS(track_time, file = file.path("results", "track_time.rds"))

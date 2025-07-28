@@ -5,7 +5,7 @@ library(msigdbr)
 library(stringr)
 
 # Load data
-dat <- readRDS('data/bladder-cancer.rds')
+dat <- readRDS(file.path('data', 'bladder-cancer.rds'))
 ind <- which(dat$y != 'Biopsy')
 x <- dat$x[ind,]
 y <- dat$y[ind] != 'Normal'
