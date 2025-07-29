@@ -14,17 +14,30 @@ b <- dat$batch[ind]
 d <- dat$dates[ind]
 
 # Fit models
-cv_lasso <- cv.glmnet(x, y, lambda.min.ratio = 0.01, nfolds = length(y))
+cv_lasso <- cv.glmnet(
+  x,
+  y,
+  lambda.min.ratio = 0.01,
+  grouped = FALSE,
+  nfolds = length(y),
+  keep = TRUE
+)
 plot(cv_lasso)
 cv_plmmr <- cv_plmm(x, y, lambda_min = 0.01, nfolds = length(y))
 plot(cv_plmmr)
 
-# Compare
+# Compare prediction
+rmse <- function(x) {sqrt(crossprod(x) / length(x))}
+rmse(cv_lasso$fit.preval[, cv_lasso$index["min",1]] - y)
+rmse(cv_plmmr$Y[, cv_plmmr$min] - y)
+
+# Compare selections
 beta <- list(
   lasso = coef(cv_lasso, s = 'lambda.min')[-1],
   plmmr = coef(cv_plmmr)[-1]
 )
 sel <- lapply(beta, \(x) which(x != 0))
+vapply(sel, length, 1)
 
 # Define set of "plausible cancer genes"
 hallmark <- msigdbr(species = "Homo sapiens", collection = "H") |>
