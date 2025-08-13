@@ -16,7 +16,7 @@ This repository holds work related to four distinct objectives, all of which are
 
 1.  Objective 1: Examine how **plmmr** scales with respect to computational time. We examine this using the PennCath data.
 2.  Objective 2: Examine how **plmmr** can be used to analyzed gene expression data. We do this with the 'bladder' data.
-3.  Objective 3: Compare the performance of **plmmr** to two other packages: **ggmix** (R) and **PenalizedGLMM** (Julia). We do this with the PennCath data.
+3.  Objective 3: Compare the performance of **plmmr** to two other packages: **ggmix** (R) and **PenalizedGLMM** (Julia). We do this with both the PennCath data and the 'bladder' data.
 4.  Objective 4: Compare the predictive performance of a **plmmr** model with that of a **glmnet** model. We do this with the PennCath data.
 
 ## Objective 1 - Computational time details
