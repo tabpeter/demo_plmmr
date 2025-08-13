@@ -1,20 +1,30 @@
 #' Analyze bladder data with plmmr
 
 # Load data
-bladder <- readRDS('results/bladder-prepped.rds')
+bladder <- readRDS('data/bladder-prepped.rds')
 
-stdX <- bladder$stdX
+stdx <- bladder$stdx
 y <- bladder$y
 K <- bladder$K
-lambda <- bladder$lambda
 
 # Fit model
 plmmrmod <- plmm(stdx,
                  y,
-                 K = K,
-                 lambda = lambda,
-                 nfolds = length(y))
+                 K = K)
 plot(plmmrmod)
 
+# Get CV best fit
+plmmrcv <- cv_plmm(stdx,
+                   y,
+                   K = K,
+                   nfolds = length(y))
+
 # Save coefficient paths
-saveRDS(coef(plmmrmod), 'results/bladder-plmmr.rds')
+saveRDS(list(coefpath = coef(plmmrmod),
+             coefcv = coef(plmmrcv)),
+        'results/bladder-plmmr.rds')
+
+# Save lambda values for use in other models
+saveRDS(list(lambdaseq = plmmrmod$lambda,
+             lambdamin = plmmrcv$lambda_min),
+        'data/bladder-lambda.rds')

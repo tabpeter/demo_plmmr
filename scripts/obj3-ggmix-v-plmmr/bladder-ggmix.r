@@ -3,18 +3,26 @@
 library(ggmix)
 
 # Load in data
-bladder <- readRDS('results/bladder-prepped.RDS')
+bladder <- readRDS('data/bladder-prepped.rds')
+lambda <- readRDS('data/bladder-lambda.rds')
 
-stdX <- bladder$stdX
+stdx <- bladder$stdx
 y <- bladder$y
 K <- bladder$K
-lambda <- bladder$lambda
+lambdaseq <- lambda$lambdaseq
 
 # Fit model
-ggmixmod <- ggmix(x = stdX,
+ggmixmod <- ggmix(x = stdx,
                   y = y,
                   kinship = K,
-                  lambda = lambda)
+                  lambda = lambdaseq)
+
+# Get fit from plmmr CV error minimum lambda
+ggmixcv <- predict(ggmixmod,
+                   s = lambda$lambdamin,
+                   type = 'coefficients')
 
 # Save coefficient paths
-saveRDS(as.matrix(coef(ggmixmod)), 'results/bladder-ggmix.rds')
+saveRDS(list(coefpath = as.matrix(coef(ggmixmod)),
+             coefcv = as.matrix(ggmixcv)),
+        'results/bladder-ggmix.rds')
