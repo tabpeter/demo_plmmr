@@ -56,7 +56,7 @@ plmm_beta[plmm_nz] |> round(3)
 
 
 # Lasso only ------------------------
-glmnet_fit <- glmnet::cv.glmnet(x = train_X,
+cvres_glmnet <- glmnet::cv.glmnet(x = train_X,
                                 y = train_y,
                                 # use same settings as in PLMM approach
                                 nfolds = 5,
@@ -66,10 +66,12 @@ glmnet_fit <- glmnet::cv.glmnet(x = train_X,
                                 trace.it = TRUE)
 
 # Construct the save path for the glmnet model object
-glmnet_fit_path <- file.path(obj4_dir, "glmnet_fit.rds")
-saveRDS(glmnet_fit, glmnet_fit_path)
+cvres_glmnet_path <- file.path(obj4_dir, "glmnet_fit.rds")
+saveRDS(cvres_glmnet, cvres_glmnet_path)
+# to read in from RDS, toggle here:
+# cvres_glmnet <- readRDS(cvres_glmnet_path)
 
-glmnet_beta <- coef(glmnet_fit, s = "lambda.min")
+glmnet_beta <- coef(cvres_glmnet, s = "lambda.min")
 rownames(glmnet_beta) <- c('(Intercept)', design_wo_std$std_X_colnames)
 glmnet_nz <- which(abs(glmnet_beta[,1]) > 1e-8)
 glmnet_beta[glmnet_nz,] |> round(3)
@@ -84,12 +86,18 @@ null_pred <- rep(mean(train_y), length(test_y))
 plmm_fit <- plmmr::plmm(design = train_design,
                         lambda = cvres_plmm$lambda_min,
                         trace = TRUE)
+plmm_fit_path <- file.path(obj4_dir, "plmm_fit.rds")
+saveRDS(plmm_fit, plmm_fit_path)
+
 pred_plmm <- predict(plmm_fit, newX = test_X, X = train_X)
+pred_plmm_path <- file.path(obj4_dir, "pred_plmm.rds")
+saveRDS(pred_plmm, pred_plmm_path)
+
 (plmm_mspe <- mean((test_y - pred_plmm)^2))
 
 
 # GLMNET predictions
-pred_glmnet <- predict(glmnet_fit, newx = test_X, s = "lambda.min")
+pred_glmnet <- predict(cvres_glmnet, newx = test_X, s = "lambda.min")
 
 # Construct the save path for the predictions
 pred_glmnet_path <- file.path(obj4_dir, "pred_glmnet.rds")
@@ -100,6 +108,7 @@ saveRDS(pred_glmnet, pred_glmnet_path)
 
 
 # Create table of results ------------------------------
+
 results_df <- data.frame(
   model = c("Null", "GLMNET", "PLMM"),
   MSPE = c(null_mspe, glmnet_mspe, plmm_mspe) |> round(digits = 3),

@@ -56,11 +56,15 @@ The order and purpose of each script within each objective:
 
 -   `fig.R` has the code I used for creating figures
 
-## Objective 2: Gene expression analysis
+## Objective 2: Comparing glmnet and plmmr
 
 -   `bladder-process.R` preprocesses the **bladder** data.
 
 -   `bladder-analysis.R` fits models and implements the comparisons
+
+-   `penncath-process.R` creates a data matrix that includes both covariates 'sex' and 'age' along with the SNP data from the PennCath study, **without standardizing this data matrix**.
+
+-   `penncath-analysis.R` fits a set of candidate models with each approach (lasso via **glmnet** and penalized linear mixed model via **plmmr**). Final models are chosen with cross-validation, and prediction performance between final models is compared.
 
 ## Objective 3: Comparing mixed model methods
 
@@ -72,10 +76,7 @@ The order and purpose of each script within each objective:
 
 -   `PenalizedGLMM-ManuscriptRun.ipynb` documents the model fitting done with Julia package **PenalizedGLMM**
 
-## Objective 4: Comparing glmnet and plmmr
-
--   `setup.R` creates a data matrix that includes both covariates 'sex' and 'age' along with the SNP data from the PennCath study, **without standardizing this data matrix**.
--   `analysis.R` fits a set of candidate models with each approach (lasso via **glmnet** and penalized linear mixed model via **plmmr**). Final models are chosen with cross-validation, and prediction performance between final models is compared.
+-   
 
 # Caveats
 
