@@ -8,7 +8,7 @@ rule penncath:
         "data/qc_penncath.bed"
     shell:
         """
-        wget https://d1ypx1ckp5bo16.cloudfront.net/penncath/penncath.tar.gz
+        curl -o penncath.tar.gz https://d1ypx1ckp5bo16.cloudfront.net/penncath/penncath.tar.gz
         tar -xvf penncath.tar.gz
         rm penncath.tar.gz
         cp scripts/obj1-scaling/qc.sh data
