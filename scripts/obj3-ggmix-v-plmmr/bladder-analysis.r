@@ -52,8 +52,9 @@ for(i in 1:length(y)) {
   predcov <- var(bladder$x[i,], t(bladder$x[-i,])) * ((n - 1) / n)
 
   ggpred[[i]] <- predict(mod,
-                         bladder$x[i,,drop = FALSE],
-                         type = 'response',
+                         s = initmod$lambda,
+                         newx = bladder$x[i,,drop = FALSE],
+                         type = 'individual',
                          covariance = predcov)
 }
 
@@ -67,7 +68,7 @@ loss <- do.call(rbind, loss)
 E <- apply(loss, 2, mean)
 
 ggmod <- list(beta_vals = initmod$beta,
-              lmabda = initmod$lambda,
+              lambda = initmod$lambda,
               min = which.min(E),
               lambda_min = initmod$lambda[which.min(E)])
 saveRDS(ggmod,
